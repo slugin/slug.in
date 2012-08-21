@@ -17,7 +17,7 @@ from django.conf import settings
 
 from tastypie.resources import Resource
 from tastypie import fields
-from tastypie.authorization import Authorization, DjangoAuthorization
+from tastypie.authorization import Authorization
 from tastypie.authentication import BasicAuthentication
 from tastypie.exceptions import NotFound, ImmediateHttpResponse
 from tastypie.http import HttpConflict
@@ -194,6 +194,7 @@ class ProjectResource(Resource):
                 name="api_dispatch_detail"),
         ]
 
+
 class RedisRedirect(object):
     """
     A Redis Model for a Redirect
@@ -321,7 +322,7 @@ class RedirectResource(Resource):
                 return "/_api/v1/redirect/%s/%s/" % (bundle_or_obj.obj.project,
                                                      bundle_or_obj.obj.slug)
             return "/_api/v1/redirect/%s/%s/" % (bundle_or_obj.project,
-                                                bundle_or_obj.slug)
+                                                 bundle_or_obj.slug)
         except:
             return ""
 
@@ -363,17 +364,17 @@ class RedirectResource(Resource):
             #Return all things for all projects
             indexes = r.keys("hydra:v1:projects:*:slugs")
             for index in indexes:
-                index_project = index.split(":")[3]
-                proj_obj = RedisRedirect(project=index_project)
+                index_proj = index.split(":")[3]
+                proj_obj = RedisRedirect(project=index_proj)
                 keys = proj_obj.all_slugs()
                 for key in keys:
                     if not filter_slug or filter_slug in key:
-                        if not filter_project or filter_project in index_project:
-                            obj = RedisRedirect(slug=key, project=index_project)
+                        if not filter_project or filter_project in index_proj:
+                            obj = RedisRedirect(slug=key,
+                                                project=index_proj)
                             ret_val.append(obj)
         ret_val.sort(key=lambda x: x.slug)
         return ret_val
-
 
     def obj_delete(self, request=None, **kwargs):
         obj = RedisRedirect(slug=kwargs['pk'], project=kwargs['project'])

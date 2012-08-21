@@ -7,7 +7,9 @@ from analytics.models import Visit
 from .api import RedisProject, RedisRedirect
 from .forms import SlugForm
 
+
 THRESHOLD = getattr(settings, "THRESHOLD", 3)
+
 
 class SlugLookupRedirectView(RedirectView):
     permanent = False
