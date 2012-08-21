@@ -33,7 +33,7 @@ import requests
 
 if os.environ.get("BUILDPACK_URL", None):
     print "HITTING PROD!"
-    api = slumber.API("http://zzz.herokuapp.com/_api/v1/")
+    api = slumber.API("http://slugin.herokuapp.com/_api/v1/")
 else:
     print "HITTING LOCAL"
     api = slumber.API("http://localhost:8000/_api/v1/")
